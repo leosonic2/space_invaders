@@ -7,6 +7,7 @@ A 2D desktop arcade game implemented in C17 with OpenGL 3.3, GLFW, and GLAD. The
 - Keyboard-controlled horizontal movement and projectiles.
 - Moving enemy formations, collision detection, scoring, and lives.
 - Menu, pause, Game Over, victory, and restart states.
+- A pixel-art player ship rendered from the reference design.
 - Configurable campaign length, with five waves by default.
 - A resizable 4:3 logical playfield with a minimum window size of 800 x 600.
 - Headless CTest coverage for configuration, game logic, renderer helpers, and integration.

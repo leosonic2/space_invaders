@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/estudos/space_invaders/build-ucrt64/_deps/glad-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

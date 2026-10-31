@@ -21,6 +21,9 @@ static void test_player_movement_and_bounds(void)
 
     CHECK(game_init(&game, 5));
     CHECK(game_start(&game));
+    CHECK(game.player.width == 64.0f);
+    CHECK(game.player.height == 80.0f);
+    CHECK(game.player.y + game.player.height == GAME_WORLD_HEIGHT - 32.0f);
     float starting_x = game.player.x;
     input.move_left = true;
     game_update(&game, &input, 0.1f);
@@ -132,7 +135,7 @@ static void test_projectile_collision_and_score(void)
     GameInput input = {0};
     Enemy enemy = {
         .x = 0.0f,
-        .y = 650.0f,
+        .y = 0.0f,
         .width = 20.0f,
         .height = 20.0f,
         .speed = 0.0f,
@@ -142,6 +145,7 @@ static void test_projectile_collision_and_score(void)
     CHECK(game_init(&game, 1));
     CHECK(game_start(&game));
     game.enemy_count = 0;
+    enemy.y = game.player.y - 52.0f;
     enemy.x = game.player.x + (game.player.width - enemy.width) * 0.5f;
     CHECK(game_add_enemy(&game, enemy));
     CHECK(game_fire(&game));

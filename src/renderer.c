@@ -8,6 +8,9 @@
 
 #define STAR_COUNT 40
 #define FONT_HEIGHT 7
+#define PLAYER_SPRITE_PIXEL_SIZE 4.0f
+#define PLAYER_SPRITE_WIDTH 16
+#define PLAYER_SPRITE_HEIGHT 20
 
 typedef struct {
     char character;
@@ -38,6 +41,29 @@ static const Star stars[STAR_COUNT] = {
     {826.0f, 579.0f, 1.5f}, {944.0f, 652.0f, 2.0f}, {1010.0f, 566.0f, 1.5f},
     {51.0f, 710.0f, 2.0f},  {301.0f, 731.0f, 1.5f}, {643.0f, 720.0f, 2.0f},
     {892.0f, 735.0f, 1.5f}
+};
+
+static const char player_sprite[PLAYER_SPRITE_HEIGHT][PLAYER_SPRITE_WIDTH + 1] = {
+    "......####......",
+    "......#WW#......",
+    "......#WW#......",
+    ".....##WW##.....",
+    ".....#WWWW#.....",
+    "....##WWWW##....",
+    "...##WW..WW##...",
+    "..##WW....WW##..",
+    ".###WW....WW###.",
+    "##RR#......#RR##",
+    "##BB#......#BB##",
+    "##WW########WW##",
+    "#WW.##RRRR##.WW#",
+    "#WW.##RRRR##.WW#",
+    "#WW..#RRRR#..WW#",
+    "#WW.##WWWW##.WW#",
+    "#WW.###..###.WW#",
+    "#WW##......##WW#",
+    "##RR##....##RR##",
+    "..##.##..##.##.."
 };
 
 static const BitmapGlyph glyphs[] = {
@@ -273,6 +299,60 @@ static void draw_rectangle(Renderer *renderer, float x, float y, float width,
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
+static void draw_player(Renderer *renderer, const Player *player)
+{
+    for (int row = 0; row < PLAYER_SPRITE_HEIGHT; row++) {
+        int column = 0;
+        while (column < PLAYER_SPRITE_WIDTH) {
+            char pixel = player_sprite[row][column];
+            if (pixel == '.') {
+                column++;
+                continue;
+            }
+
+            int run_start = column;
+            while (column < PLAYER_SPRITE_WIDTH &&
+                   player_sprite[row][column] == pixel) {
+                column++;
+            }
+
+            float red;
+            float green;
+            float blue;
+            switch (pixel) {
+            case '#':
+                red = 0.005f;
+                green = 0.008f;
+                blue = 0.018f;
+                break;
+            case 'R':
+                red = 0.95f;
+                green = 0.20f;
+                blue = 0.17f;
+                break;
+            case 'B':
+                red = 0.25f;
+                green = 0.32f;
+                blue = 0.72f;
+                break;
+            default:
+                red = 0.92f;
+                green = 0.94f;
+                blue = 0.98f;
+                break;
+            }
+
+            draw_rectangle(
+                renderer,
+                player->x + (float)run_start * PLAYER_SPRITE_PIXEL_SIZE,
+                player->y + (float)row * PLAYER_SPRITE_PIXEL_SIZE,
+                (float)(column - run_start) * PLAYER_SPRITE_PIXEL_SIZE,
+                PLAYER_SPRITE_PIXEL_SIZE,
+                red, green, blue);
+        }
+    }
+}
+
 RendererViewport renderer_calculate_viewport(int width, int height)
 {
     if (width <= 0 || height <= 0) {
@@ -375,9 +455,7 @@ void renderer_render(Renderer *renderer, const Game *game, int width, int height
         draw_text(renderer, text.prompt, 272.0f, 410.0f, 4.0f,
                   0.9f, 0.95f, 1.0f);
     } else {
-        draw_rectangle(renderer, game->player.x, game->player.y,
-                       game->player.width, game->player.height,
-                       0.2f, 0.9f, 1.0f);
+        draw_player(renderer, &game->player);
         for (size_t i = 0; i < game->enemy_count; i++) {
             float red = (i / (size_t)game->wave_enemy_columns) % 2 == 0
                             ? 0.25f

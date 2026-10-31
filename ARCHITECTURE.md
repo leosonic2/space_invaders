@@ -91,7 +91,7 @@ Inactive entities are compacted in-place after collision processing. Enemies and
 
 ### Rendering and layout
 
-The renderer converts the 1024 x 768 logical coordinates into OpenGL clip coordinates and computes a centered 4:3 viewport, leaving letterbox/pillarbox margins when the framebuffer has a different aspect ratio. Shapes use a dynamic vertex buffer and shader program; the background contains 40 fixed stars. UI text uses a small embedded bitmap glyph table rather than an external font library. `renderer_format_text` prepares strings and visibility flags for the menu, HUD, pause, Game Over, and victory screens.
+The renderer converts the 1024 x 768 logical coordinates into OpenGL clip coordinates and computes a centered 4:3 viewport, leaving letterbox/pillarbox margins when the framebuffer has a different aspect ratio. The player ship is a 16 x 20 embedded pixel-art map with a four-world-unit pixel size, drawn as horizontal runs of black, white, red, and blue rectangles. Its 64 x 80 world-unit logical bounds match the sprite dimensions. Other shapes use a dynamic vertex buffer and shader program; the background contains 40 fixed stars. UI text uses a small embedded bitmap glyph table rather than an external font library. `renderer_format_text` prepares strings and visibility flags for the menu, HUD, pause, Game Over, and victory screens.
 
 The application requests an initial 1024 x 768 window and sets a minimum size of 800 x 600. The framebuffer callback sets a viewport directly; the renderer then calculates and applies the logical 4:3 viewport during drawing.
 

@@ -1,0 +1,3 @@
+C:/estudos/space_invaders/build-ucrt64/_deps/glad-subbuild/CMakeFiles/glad-populate.dir
+C:/estudos/space_invaders/build-ucrt64/_deps/glad-subbuild/CMakeFiles/edit_cache.dir
+C:/estudos/space_invaders/build-ucrt64/_deps/glad-subbuild/CMakeFiles/rebuild_cache.dir

@@ -28,4 +28,4 @@
 
 - [x] 5.1 Add integration coverage for start, movement, firing, hit/scoring, wave progression, pause/resume, life loss, Game Over, and restart; verify the complete CTest suite passes.
 - [x] 5.2 Measure the standard-wave frame rate at 1024 by 768, exercise 100 active projectiles, and run a 30-minute stability session; record whether the approximate 60 FPS target is met and confirm no freezes or unexpected shutdowns.
-- [ ] 5.3 Add Windows and Linux CI jobs that configure, build, and run headless tests; verify both platform jobs pass on the change.
+- [x] 5.3 Add Windows and Linux CI jobs that configure, build, and run headless tests; verify both platform jobs pass on the change.

@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PLAYER_WIDTH 52.0f
-#define PLAYER_HEIGHT 32.0f
+#define PLAYER_WIDTH 64.0f
+#define PLAYER_HEIGHT 80.0f
 #define PLAYER_SPEED 320.0f
-#define PLAYER_Y (GAME_WORLD_HEIGHT - 64.0f)
+#define PLAYER_Y (GAME_WORLD_HEIGHT - PLAYER_HEIGHT - 32.0f)
 #define MAX_FRAME_DELTA 0.25f
 #define ENEMY_DESCENT_SPEED 6.0f
 #define ENEMY_WIDTH 36.0f
