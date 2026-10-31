@@ -2,25 +2,42 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "C: build active file",
+      "label": "CMake: configure",
       "type": "process",
-      "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+      "command": "cmake",
       "args": [
-        "-std=c17",
-        "-Wall",
-        "-Wextra",
-        "-Wpedantic",
-        "-g",
-        "${file}",
-        "-o",
-        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+        "-S",
+        "${workspaceFolder}",
+        "-B",
+        "${workspaceFolder}\\build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_C_COMPILER=C:\\msys64\\ucrt64\\bin\\gcc.exe"
       ],
       "options": {
-        "cwd": "${fileDirname}",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
         }
       },
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: build",
+      "type": "process",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}\\build",
+        "--parallel"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "PATH": "C:\\msys64\\ucrt64\\bin;${env:PATH}"
+        }
+      },
+      "dependsOn": "CMake: configure",
       "problemMatcher": "$gcc",
       "group": {
         "kind": "build",
