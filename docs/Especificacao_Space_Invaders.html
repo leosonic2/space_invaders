@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Especificação de Software – Space Invaders</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+<style>
+:root {
+  color-scheme: light;
+  --ink: #182235;
+  --muted: #5d6b82;
+  --line: #dce3ed;
+  --surface: #f5f8fc;
+  --accent: #2457a7;
+  --accent-soft: #eaf1fc;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #eef2f7;
+  color: var(--ink);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.68;
+}
+main {
+  width: min(1080px, calc(100% - 40px));
+  margin: 36px auto;
+  padding: 56px 68px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(24, 34, 53, .08);
+}
+header#title-block-header {
+  padding-bottom: 28px;
+  margin-bottom: 34px;
+  border-bottom: 3px solid var(--accent);
+}
+h1 { font-size: 2.25rem; line-height: 1.2; margin: 0 0 16px; color: #102344; }
+h2 {
+  margin-top: 2.5em;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+  color: #173b70;
+  font-size: 1.55rem;
+}
+h3 { margin-top: 1.8em; color: #2457a7; font-size: 1.18rem; }
+h4 { color: #33445f; }
+p { margin: .75em 0; }
+a { color: var(--accent); }
+strong { color: #182b49; }
+ul, ol { padding-left: 1.5rem; }
+li { margin: .32em 0; }
+table {
+  width: 100%;
+  margin: 1.2em 0 1.8em;
+  border-collapse: collapse;
+  font-size: .92rem;
+  display: table;
+}
+thead { background: #eaf1fc; }
+th, td {
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th { color: #173b70; font-weight: 700; }
+tbody tr:nth-child(even) { background: #f8fafd; }
+pre {
+  overflow-x: auto;
+  padding: 18px 20px;
+  border: 1px solid #263b5a;
+  border-radius: 9px;
+  background: #101c2e;
+  color: #e7eef9;
+  font-size: .88rem;
+  line-height: 1.55;
+}
+code {
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: .9em;
+}
+:not(pre) > code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--surface);
+  color: #8b3155;
+}
+blockquote {
+  margin: 1.2em 0;
+  padding: 12px 18px;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--muted);
+}
+#TOC {
+  margin: 0 0 42px;
+  padding: 22px 28px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+#TOC::before {
+  content: "NAVEGAÇÃO DO DOCUMENTO";
+  display: block;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+#TOC ul { margin: .3em 0; }
+#TOC a { text-decoration: none; }
+#TOC a:hover { text-decoration: underline; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2em 0; }
+@media (max-width: 700px) {
+  main { width: 100%; margin: 0; padding: 28px 20px; border: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  table { display: block; overflow-x: auto; white-space: normal; }
+}
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  main { width: 100%; margin: 0; padding: 0; border: 0; box-shadow: none; }
+  #TOC a { color: #000; }
+  h2, h3 { break-after: avoid; }
+  table, pre { break-inside: avoid; }
+}
+</style>
+
+</head>
+<body>
+<main>
+
+<header id="title-block-header">
+<h1 class="title">Especificação de Software – Space Invaders</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#especificação-de-software-space-invaders"
+id="toc-especificação-de-software-space-invaders">Especificação de
+Software – Space Invaders</a></li>
+<li><a href="#introdução" id="toc-introdução">1. Introdução</a>
+<ul>
+<li><a href="#objetivo" id="toc-objetivo">1.1 Objetivo</a></li>
+<li><a href="#escopo-do-projeto" id="toc-escopo-do-projeto">1.2 Escopo
+do projeto</a></li>
+<li><a href="#público-alvo" id="toc-público-alvo">1.3
+Público-alvo</a></li>
+</ul></li>
+<li><a href="#tecnologias-e-ferramentas"
+id="toc-tecnologias-e-ferramentas">2. Tecnologias e ferramentas</a>
+<ul>
+<li><a href="#arquitetura-tecnológica"
+id="toc-arquitetura-tecnológica">2.1 Arquitetura tecnológica</a></li>
+</ul></li>
+<li><a href="#requisitos-funcionais" id="toc-requisitos-funcionais">3.
+Requisitos funcionais</a></li>
+<li><a href="#requisitos-não-funcionais"
+id="toc-requisitos-não-funcionais">4. Requisitos não funcionais</a></li>
+<li><a href="#regras-de-negócio" id="toc-regras-de-negócio">5. Regras de
+negócio</a>
+<ul>
+<li><a href="#sistema-de-pontuação-sugerido"
+id="toc-sistema-de-pontuação-sugerido">5.1 Sistema de pontuação
+sugerido</a></li>
+<li><a href="#sistema-de-dificuldade"
+id="toc-sistema-de-dificuldade">5.2 Sistema de dificuldade</a></li>
+</ul></li>
+<li><a href="#casos-de-uso" id="toc-casos-de-uso">6. Casos de uso</a>
+<ul>
+<li><a href="#diagrama-geral-de-casos-de-uso"
+id="toc-diagrama-geral-de-casos-de-uso">6.1 Diagrama geral de casos de
+uso</a></li>
+<li><a href="#descrição-detalhada-dos-casos-de-uso"
+id="toc-descrição-detalhada-dos-casos-de-uso">6.2 Descrição detalhada
+dos casos de uso</a></li>
+</ul></li>
+<li><a href="#arquitetura-do-software"
+id="toc-arquitetura-do-software">7. Arquitetura do software</a>
+<ul>
+<li><a href="#organização-dos-módulos"
+id="toc-organização-dos-módulos">7.1 Organização dos módulos</a></li>
+<li><a href="#estrutura-de-diretórios"
+id="toc-estrutura-de-diretórios">7.2 Estrutura de diretórios</a></li>
+<li><a href="#principais-estruturas-de-dados"
+id="toc-principais-estruturas-de-dados">7.3 Principais estruturas de
+dados</a></li>
+</ul></li>
+<li><a href="#fluxo-de-execução-do-jogo"
+id="toc-fluxo-de-execução-do-jogo">8. Fluxo de execução do jogo</a>
+<ul>
+<li><a href="#pseudocódigo-do-game-loop"
+id="toc-pseudocódigo-do-game-loop">8.1 Pseudocódigo do Game
+Loop</a></li>
+</ul></li>
+<li><a href="#especificação-gráfica" id="toc-especificação-gráfica">9.
+Especificação gráfica</a>
+<ul>
+<li><a href="#elementos-visuais" id="toc-elementos-visuais">9.1
+Elementos visuais</a></li>
+<li><a href="#layout-da-tela" id="toc-layout-da-tela">9.2 Layout da
+tela</a></li>
+</ul></li>
+<li><a href="#plano-de-testes" id="toc-plano-de-testes">10. Plano de
+testes</a>
+<ul>
+<li><a href="#testes-unitários" id="toc-testes-unitários">10.1 Testes
+unitários</a></li>
+<li><a href="#testes-de-integração" id="toc-testes-de-integração">10.2
+Testes de integração</a></li>
+<li><a href="#testes-funcionais" id="toc-testes-funcionais">10.3 Testes
+funcionais</a></li>
+<li><a href="#testes-não-funcionais" id="toc-testes-não-funcionais">10.4
+Testes não funcionais</a></li>
+</ul></li>
+<li><a href="#critérios-de-aceite" id="toc-critérios-de-aceite">11.
+Critérios de aceite</a></li>
+<li><a href="#considerações-sobre-implementação"
+id="toc-considerações-sobre-implementação">12. Considerações sobre
+implementação</a></li>
+<li><a href="#evoluções-futuras" id="toc-evoluções-futuras">13.
+Evoluções futuras</a></li>
+<li><a href="#definição-de-conclusão-do-projeto"
+id="toc-definição-de-conclusão-do-projeto">14. Definição de conclusão do
+projeto</a></li>
+</ul>
+</nav>
+<h1 id="especificação-de-software-space-invaders">Especificação de
+Software – Space Invaders</h1>
+<p><strong>Versão:</strong> 1.0<br />
+<strong>Tipo de sistema:</strong> Jogo eletrônico 2D<br />
+<strong>Nome do projeto:</strong> Space Invaders<br />
+<strong>Plataforma:</strong> Desktop (Windows/Linux)<br />
+<strong>Linguagem de programação:</strong> C<br />
+<strong>Biblioteca gráfica:</strong> OpenGL</p>
+<hr />
+<h1 id="introdução">1. Introdução</h1>
+<h2 id="objetivo">1.1 Objetivo</h2>
+<p>Este documento apresenta a especificação funcional e técnica para o
+desenvolvimento de um jogo inspirado no clássico <em>Space
+Invaders</em>, utilizando a linguagem C e a biblioteca gráfica
+OpenGL.</p>
+<p>O objetivo do jogo é controlar uma nave espacial que deve eliminar
+ondas de invasores alienígenas antes que eles alcancem a parte inferior
+da tela.</p>
+<p>O jogador deverá movimentar a nave horizontalmente, disparar
+projéteis contra os inimigos, acumular pontos e sobreviver ao maior
+número possível de ondas de invasores.</p>
+<h2 id="escopo-do-projeto">1.2 Escopo do projeto</h2>
+<p>O sistema deverá implementar as seguintes funcionalidades:</p>
+<ul>
+<li>Exibição de uma tela inicial.</li>
+<li>Controle de movimentação da nave do jogador.</li>
+<li>Disparo de projéteis.</li>
+<li>Geração e movimentação de inimigos.</li>
+<li>Detecção de colisões.</li>
+<li>Sistema de pontuação.</li>
+<li>Sistema de vidas.</li>
+<li>Progressão de dificuldade.</li>
+<li>Condição de vitória e derrota.</li>
+<li>Reinicialização da partida.</li>
+<li>Exibição da pontuação final.</li>
+</ul>
+<h2 id="público-alvo">1.3 Público-alvo</h2>
+<p>O jogo será destinado a usuários que desejam jogar um jogo de ação
+arcade, com mecânica simples, controles intuitivos e dificuldade
+progressiva.</p>
+<h1 id="tecnologias-e-ferramentas">2. Tecnologias e ferramentas</h1>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tecnologia</th>
+<th style="text-align: left;">Finalidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">Linguagem principal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OpenGL</td>
+<td style="text-align: left;">Renderização gráfica 2D</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GLFW</td>
+<td style="text-align: left;">Gerenciamento de janela e eventos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GLAD</td>
+<td style="text-align: left;">Carregamento de funções OpenGL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CMake</td>
+<td style="text-align: left;">Gerenciamento da compilação</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GCC / Clang / MSVC</td>
+<td style="text-align: left;">Compilação do código</td>
+</tr>
+</tbody>
+</table>
+<h2 id="arquitetura-tecnológica">2.1 Arquitetura tecnológica</h2>
+<p>O sistema utilizará OpenGL para desenhar os elementos gráficos do
+jogo.</p>
+<p>A biblioteca GLFW será responsável pela criação da janela,
+gerenciamento do teclado e controle do ciclo de eventos.</p>
+<p>A biblioteca GLAD será utilizada para carregar as funções da API
+OpenGL.</p>
+<p>Recomenda-se utilizar OpenGL 3.3 Core Profile, com renderização 2D
+por meio de shaders e primitivas gráficas.</p>
+<h1 id="requisitos-funcionais">3. Requisitos funcionais</h1>
+<p>Os requisitos funcionais descrevem as funcionalidades que o sistema
+deverá disponibilizar.</p>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Requisito</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RF001</td>
+<td style="text-align: left;">Tela inicial</td>
+<td style="text-align: left;">O sistema deverá apresentar uma tela
+inicial com o título do jogo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF002</td>
+<td style="text-align: left;">Iniciar partida</td>
+<td style="text-align: left;">O jogador deverá conseguir iniciar uma
+nova partida.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF003</td>
+<td style="text-align: left;">Movimentar nave</td>
+<td style="text-align: left;">O jogador deverá movimentar a nave
+horizontalmente.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF004</td>
+<td style="text-align: left;">Disparar projéteis</td>
+<td style="text-align: left;">O jogador deverá conseguir disparar
+projéteis contra os inimigos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF005</td>
+<td style="text-align: left;">Gerar inimigos</td>
+<td style="text-align: left;">O sistema deverá gerar uma formação de
+inimigos automaticamente.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF006</td>
+<td style="text-align: left;">Movimentar inimigos</td>
+<td style="text-align: left;">Os inimigos deverão se movimentar
+horizontalmente e mudar de direção ao atingir as bordas da tela.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF007</td>
+<td style="text-align: left;">Aproximar inimigos</td>
+<td style="text-align: left;">Os inimigos deverão descer gradativamente
+em direção à nave do jogador.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF008</td>
+<td style="text-align: left;">Detectar colisões</td>
+<td style="text-align: left;">O sistema deverá identificar colisões
+entre projéteis e inimigos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF009</td>
+<td style="text-align: left;">Pontuação</td>
+<td style="text-align: left;">O sistema deverá adicionar pontos quando
+um inimigo for eliminado.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF010</td>
+<td style="text-align: left;">Sistema de vidas</td>
+<td style="text-align: left;">O jogador deverá iniciar com três
+vidas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF011</td>
+<td style="text-align: left;">Perder vida</td>
+<td style="text-align: left;">O jogador deverá perder uma vida quando os
+invasores atingirem a região inferior da tela ou ocorrer uma colisão
+prevista pelas regras do jogo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF012</td>
+<td style="text-align: left;">Progressão</td>
+<td style="text-align: left;">O sistema deverá aumentar a dificuldade
+conforme as ondas forem concluídas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF013</td>
+<td style="text-align: left;">Vitória</td>
+<td style="text-align: left;">O sistema deverá identificar a conclusão
+de uma onda ou campanha, conforme a configuração do jogo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF014</td>
+<td style="text-align: left;">Game Over</td>
+<td style="text-align: left;">O sistema deverá finalizar a partida
+quando as vidas chegarem a zero.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RF015</td>
+<td style="text-align: left;">Reiniciar</td>
+<td style="text-align: left;">O jogador deverá conseguir iniciar uma
+nova partida após o Game Over.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RF016</td>
+<td style="text-align: left;">Pausar</td>
+<td style="text-align: left;">O jogador deverá conseguir pausar e
+retomar a partida.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="requisitos-não-funcionais">4. Requisitos não funcionais</h1>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Requisito</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RNF001</td>
+<td style="text-align: left;">Linguagem</td>
+<td style="text-align: left;">O sistema deverá ser desenvolvido em
+linguagem C.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RNF002</td>
+<td style="text-align: left;">Renderização</td>
+<td style="text-align: left;">A renderização gráfica deverá utilizar
+OpenGL.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RNF003</td>
+<td style="text-align: left;">Desempenho</td>
+<td style="text-align: left;">O jogo deverá buscar uma taxa de
+atualização de 60 FPS.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RNF004</td>
+<td style="text-align: left;">Resolução</td>
+<td style="text-align: left;">O jogo deverá suportar resolução mínima de
+800 × 600 pixels.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RNF005</td>
+<td style="text-align: left;">Compatibilidade</td>
+<td style="text-align: left;">O software deverá funcionar em sistemas
+operacionais Windows e Linux compatíveis com as dependências
+utilizadas.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RNF006</td>
+<td style="text-align: left;">Usabilidade</td>
+<td style="text-align: left;">Os comandos deverão ser simples e
+intuitivos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RNF007</td>
+<td style="text-align: left;">Manutenibilidade</td>
+<td style="text-align: left;">O código deverá ser organizado em módulos
+independentes.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RNF008</td>
+<td style="text-align: left;">Portabilidade</td>
+<td style="text-align: left;">O projeto deverá utilizar bibliotecas
+multiplataforma sempre que possível.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RNF009</td>
+<td style="text-align: left;">Estabilidade</td>
+<td style="text-align: left;">O jogo deverá tratar corretamente eventos
+de encerramento e falhas de inicialização gráfica.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RNF010</td>
+<td style="text-align: left;">Temporização</td>
+<td style="text-align: left;">A movimentação deverá ser independente da
+taxa de quadros, utilizando delta time.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="regras-de-negócio">5. Regras de negócio</h1>
+<p>As regras de negócio definem o comportamento esperado durante uma
+partida.</p>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Regra</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RN001</td>
+<td style="text-align: left;">Vidas iniciais</td>
+<td style="text-align: left;">O jogador inicia a partida com 3
+vidas.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RN002</td>
+<td style="text-align: left;">Pontuação</td>
+<td style="text-align: left;">Cada inimigo eliminado adiciona pontos ao
+jogador.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RN003</td>
+<td style="text-align: left;">Pontuação básica</td>
+<td style="text-align: left;">Inimigo comum vale 10 pontos.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RN004</td>
+<td style="text-align: left;">Movimento</td>
+<td style="text-align: left;">A nave não poderá ultrapassar os limites
+horizontais da tela.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RN005</td>
+<td style="text-align: left;">Disparos</td>
+<td style="text-align: left;">O projétil deverá se movimentar
+verticalmente em direção aos inimigos.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RN006</td>
+<td style="text-align: left;">Colisão</td>
+<td style="text-align: left;">Um inimigo atingido por um projétil deverá
+ser removido da formação.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RN007</td>
+<td style="text-align: left;">Movimento dos inimigos</td>
+<td style="text-align: left;">Quando a formação atingir uma das bordas,
+deverá inverter a direção e descer uma posição.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RN008</td>
+<td style="text-align: left;">Nova onda</td>
+<td style="text-align: left;">Quando todos os inimigos forem eliminados,
+uma nova onda deverá ser iniciada.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RN009</td>
+<td style="text-align: left;">Dificuldade</td>
+<td style="text-align: left;">A velocidade dos inimigos deverá aumentar
+a cada nova onda.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RN010</td>
+<td style="text-align: left;">Game Over</td>
+<td style="text-align: left;">A partida deverá terminar quando o jogador
+perder todas as vidas.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sistema-de-pontuação-sugerido">5.1 Sistema de pontuação
+sugerido</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo de inimigo</th>
+<th style="text-align: right;">Pontuação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Inimigo básico</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Inimigo intermediário</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Inimigo avançado</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nave especial</td>
+<td style="text-align: right;">100</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sistema-de-dificuldade">5.2 Sistema de dificuldade</h2>
+<p>A dificuldade deverá aumentar progressivamente.</p>
+<ul>
+<li>Onda 1: velocidade inicial dos inimigos.</li>
+<li>Onda 2: velocidade dos inimigos aumentada em 15%.</li>
+<li>Onda 3: velocidade aumentada em mais 15%.</li>
+<li>Onda 4: aumento da quantidade de inimigos.</li>
+<li>Ondas seguintes: combinação de velocidade e quantidade.</li>
+</ul>
+<h1 id="casos-de-uso">6. Casos de uso</h1>
+<h2 id="diagrama-geral-de-casos-de-uso">6.1 Diagrama geral de casos de
+uso</h2>
+<p><strong>Ator principal:</strong> Jogador.</p>
+<p><strong>Casos de uso identificados:</strong></p>
+<ul>
+<li>UC001 – Iniciar partida.</li>
+<li>UC002 – Movimentar nave.</li>
+<li>UC003 – Disparar projéteis.</li>
+<li>UC004 – Eliminar inimigos.</li>
+<li>UC005 – Visualizar pontuação.</li>
+<li>UC006 – Pausar partida.</li>
+<li>UC007 – Retomar partida.</li>
+<li>UC008 – Finalizar partida.</li>
+<li>UC009 – Reiniciar partida.</li>
+</ul>
+<h2 id="descrição-detalhada-dos-casos-de-uso">6.2 Descrição detalhada
+dos casos de uso</h2>
+<h3 id="uc001-iniciar-partida">UC001 – Iniciar partida</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Iniciar uma nova partida.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">O jogo deverá estar na tela inicial.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">A partida será iniciada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador abre o jogo.</li>
+<li>O sistema apresenta a tela inicial.</li>
+<li>O jogador pressiona ENTER.</li>
+<li>O sistema inicializa a nave.</li>
+<li>O sistema inicializa a pontuação em zero.</li>
+<li>O sistema configura três vidas.</li>
+<li>O sistema gera a primeira formação de inimigos.</li>
+<li>O jogo começa.</li>
+</ol>
+<p><strong>Fluxo alternativo:</strong></p>
+<ul>
+<li>Caso o jogador feche a janela, o sistema deverá encerrar a
+aplicação.</li>
+</ul>
+<h3 id="uc002-movimentar-nave">UC002 – Movimentar nave</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Movimentar a nave horizontalmente.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">A partida deverá estar ativa.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">A posição da nave será atualizada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador pressiona a tecla A ou seta para esquerda.</li>
+<li>O sistema identifica o comando.</li>
+<li>O sistema atualiza a posição da nave para a esquerda.</li>
+<li>O jogador pressiona a tecla D ou seta para direita.</li>
+<li>O sistema atualiza a posição da nave para a direita.</li>
+<li>O sistema verifica os limites da tela.</li>
+</ol>
+<p><strong>Fluxo alternativo:</strong></p>
+<ul>
+<li>Caso a nave alcance a extremidade esquerda, não poderá continuar se
+movimentando nessa direção.</li>
+<li>Caso a nave alcance a extremidade direita, não poderá continuar se
+movimentando nessa direção.</li>
+</ul>
+<h3 id="uc003-disparar-projéteis">UC003 – Disparar projéteis</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Disparar contra os invasores.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">A partida deverá estar ativa.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">Um projétil será criado e
+movimentado.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador pressiona a tecla ESPAÇO.</li>
+<li>O sistema verifica se o disparo está permitido.</li>
+<li>O sistema cria um projétil na posição da nave.</li>
+<li>O projétil é movimentado verticalmente.</li>
+<li>O sistema verifica colisões.</li>
+<li>Caso o projétil ultrapasse o limite superior da tela, será
+removido.</li>
+</ol>
+<p><strong>Fluxo alternativo:</strong></p>
+<ul>
+<li>Caso exista um limite de disparos simultâneos, o sistema deverá
+impedir a criação de novos projéteis até que exista capacidade
+disponível.</li>
+</ul>
+<h3 id="uc004-eliminar-inimigos">UC004 – Eliminar inimigos</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Sistema</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Remover inimigos atingidos por
+projéteis.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">Existir pelo menos um inimigo e um
+projétil ativo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">O inimigo será removido e a pontuação
+atualizada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O sistema verifica a posição dos projéteis.</li>
+<li>O sistema verifica a posição dos inimigos.</li>
+<li>O sistema identifica uma colisão.</li>
+<li>O sistema remove o projétil.</li>
+<li>O sistema remove o inimigo.</li>
+<li>O sistema adiciona pontos ao jogador.</li>
+<li>O sistema atualiza a pontuação exibida.</li>
+</ol>
+<p><strong>Fluxo alternativo:</strong></p>
+<ul>
+<li>Caso não exista colisão, o projétil continuará se movimentando.</li>
+</ul>
+<h3 id="uc005-visualizar-pontuação">UC005 – Visualizar pontuação</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Consultar a pontuação atual.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">A partida deverá estar ativa.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">A pontuação será exibida na
+interface.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O sistema consulta a pontuação atual.</li>
+<li>O sistema atualiza o componente gráfico.</li>
+<li>O jogador visualiza a pontuação na parte superior da tela.</li>
+</ol>
+<h3 id="uc006-pausar-partida">UC006 – Pausar partida</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Interromper temporariamente o jogo.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">A partida deverá estar ativa.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">O jogo ficará pausado.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador pressiona ESC.</li>
+<li>O sistema altera o estado para PAUSADO.</li>
+<li>A movimentação dos inimigos é interrompida.</li>
+<li>A movimentação dos projéteis é interrompida.</li>
+<li>O sistema apresenta a mensagem PAUSADO.</li>
+</ol>
+<h3 id="uc007-retomar-partida">UC007 – Retomar partida</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Retomar uma partida pausada.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">O jogo deverá estar pausado.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">A partida voltará a ser executada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador pressiona ENTER.</li>
+<li>O sistema altera o estado para JOGANDO.</li>
+<li>O sistema retoma a movimentação dos elementos.</li>
+<li>O jogo continua do ponto em que foi pausado.</li>
+</ol>
+<h3 id="uc008-finalizar-partida">UC008 – Finalizar partida</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Sistema</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Encerrar a partida quando todas as vidas
+forem perdidas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">O jogador deverá estar com zero
+vidas.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">A tela de Game Over será apresentada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O sistema identifica que as vidas chegaram a zero.</li>
+<li>O sistema altera o estado para GAME OVER.</li>
+<li>O sistema interrompe a movimentação dos elementos.</li>
+<li>O sistema apresenta a pontuação final.</li>
+<li>O sistema disponibiliza a opção de reiniciar.</li>
+</ol>
+<h3 id="uc009-reiniciar-partida">UC009 – Reiniciar partida</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Campo</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ator</td>
+<td style="text-align: left;">Jogador</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Iniciar uma nova partida.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pré-condição</td>
+<td style="text-align: left;">O jogo deverá estar na tela de Game
+Over.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pós-condição</td>
+<td style="text-align: left;">Uma nova partida será iniciada.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fluxo principal:</strong></p>
+<ol type="1">
+<li>O jogador pressiona ENTER.</li>
+<li>O sistema limpa os projéteis existentes.</li>
+<li>O sistema reinicializa a pontuação.</li>
+<li>O sistema restaura as três vidas.</li>
+<li>O sistema recria a formação de inimigos.</li>
+<li>O jogo começa novamente.</li>
+</ol>
+<h1 id="arquitetura-do-software">7. Arquitetura do software</h1>
+<p>O software deverá ser organizado em módulos para facilitar a
+manutenção, os testes e a evolução do projeto.</p>
+<h2 id="organização-dos-módulos">7.1 Organização dos módulos</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">GAME / MAIN</td>
+<td style="text-align: left;">Inicialização e controle do ciclo
+principal</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PLAYER</td>
+<td style="text-align: left;">Controle da nave e disparos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ENEMY</td>
+<td style="text-align: left;">Criação e movimentação dos inimigos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">COLLISION</td>
+<td style="text-align: left;">Detecção e tratamento de colisões</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GAME STATE</td>
+<td style="text-align: left;">Controle dos estados da partida</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RENDERER</td>
+<td style="text-align: left;">Renderização com OpenGL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">UI / HUD</td>
+<td style="text-align: left;">Pontuação, vidas e mensagens</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OPENGL + GLFW + GLAD</td>
+<td style="text-align: left;">Camada gráfica, janela e eventos de
+entrada</td>
+</tr>
+</tbody>
+</table>
+<h2 id="estrutura-de-diretórios">7.2 Estrutura de diretórios</h2>
+<pre class="text"><code>space-invaders/
+│
+├── CMakeLists.txt
+│
+├── include/
+│   ├── game.h
+│   ├── player.h
+│   ├── enemy.h
+│   ├── projectile.h
+│   ├── collision.h
+│   ├── renderer.h
+│   └── game_state.h
+│
+├── src/
+│   ├── main.c
+│   ├── game.c
+│   ├── player.c
+│   ├── enemy.c
+│   ├── projectile.c
+│   ├── collision.c
+│   ├── renderer.c
+│   └── game_state.c
+│
+├── shaders/
+│   ├── vertex.glsl
+│   └── fragment.glsl
+│
+├── assets/
+│   ├── images/
+│   └── fonts/
+│
+└── tests/
+    ├── test_player.c
+    ├── test_enemy.c
+    ├── test_collision.c
+    └── test_game.c</code></pre>
+<h2 id="principais-estruturas-de-dados">7.3 Principais estruturas de
+dados</h2>
+<h3 id="estrutura-do-jogador">Estrutura do jogador</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> x<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> y<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> width<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> height<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> speed<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lives<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Player<span class="op">;</span></span></code></pre></div>
+<h3 id="estrutura-do-inimigo">Estrutura do inimigo</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> x<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> y<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> width<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> height<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> speed<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> active<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> points<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Enemy<span class="op">;</span></span></code></pre></div>
+<h3 id="estrutura-do-projétil">Estrutura do projétil</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> x<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> y<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> speed<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> active<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> Projectile<span class="op">;</span></span></code></pre></div>
+<h3 id="estado-do-jogo">Estado do jogo</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    MENU<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    PLAYING<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    PAUSED<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    GAME_OVER<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    VICTORY</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> GameState<span class="op">;</span></span></code></pre></div>
+<h1 id="fluxo-de-execução-do-jogo">8. Fluxo de execução do jogo</h1>
+<p>O jogo deverá utilizar um ciclo principal (<em>Game Loop</em>)
+responsável por atualizar a lógica e renderizar os elementos
+gráficos.</p>
+<pre class="mermaid"><code>flowchart TD
+    A([Iniciar aplicação]) --&gt; B[Inicializar GLFW e OpenGL]
+    B --&gt; C[Carregar shaders e recursos]
+    C --&gt; D[Exibir menu inicial]
+    D --&gt; E{Jogador iniciou?}
+    E -- Não --&gt; D
+    E -- Sim --&gt; F[Inicializar partida]
+    F --&gt; G[Capturar entradas]
+    G --&gt; H[Atualizar jogador e inimigos]
+    H --&gt; I[Atualizar projéteis]
+    I --&gt; J[Verificar colisões]
+    J --&gt; K[Atualizar pontuação e vidas]
+    K --&gt; L{Fim de partida?}
+    L -- Não --&gt; M[Renderizar cena]
+    M --&gt; G
+    L -- Sim --&gt; N[Exibir resultado]
+    N --&gt; O{Reiniciar?}
+    O -- Sim --&gt; F
+    O -- Não --&gt; P[Encerrar aplicação]</code></pre>
+<h2 id="pseudocódigo-do-game-loop">8.1 Pseudocódigo do Game Loop</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(!</span>glfwWindowShouldClose<span class="op">(</span>window<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> deltaTime <span class="op">=</span> calculateDeltaTime<span class="op">();</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    processInput<span class="op">();</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>gameState <span class="op">==</span> PLAYING<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        updatePlayer<span class="op">(</span>deltaTime<span class="op">);</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        updateEnemies<span class="op">(</span>deltaTime<span class="op">);</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        updateProjectiles<span class="op">(</span>deltaTime<span class="op">);</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        checkCollisions<span class="op">();</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        updateScore<span class="op">();</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        checkGameOver<span class="op">();</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        checkVictory<span class="op">();</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    renderGame<span class="op">();</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    glfwSwapBuffers<span class="op">(</span>window<span class="op">);</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    glfwPollEvents<span class="op">();</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>O parâmetro <code>deltaTime</code> deverá representar o tempo
+transcorrido entre dois quadros, garantindo que a movimentação dos
+objetos não dependa diretamente do FPS.</p>
+<h1 id="especificação-gráfica">9. Especificação gráfica</h1>
+<h2 id="elementos-visuais">9.1 Elementos visuais</h2>
+<p>O jogo deverá apresentar os seguintes elementos:</p>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Elemento</th>
+<th style="text-align: left;">Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nave do jogador</td>
+<td style="text-align: left;">Representação gráfica da nave controlada
+pelo jogador.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Inimigos</td>
+<td style="text-align: left;">Aliens organizados em formação.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Projéteis</td>
+<td style="text-align: left;">Elementos gráficos que representam os
+disparos.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fundo</td>
+<td style="text-align: left;">Cenário espacial com estrelas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HUD</td>
+<td style="text-align: left;">Área de informações com pontuação, vidas e
+onda atual.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Menu</td>
+<td style="text-align: left;">Interface para iniciar ou reiniciar a
+partida.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="layout-da-tela">9.2 Layout da tela</h2>
+<p>Resolução de referência: 1024 × 768 pixels.</p>
+<p>Distribuição sugerida:</p>
+<ul>
+<li>Parte superior: pontuação, vidas e onda atual.</li>
+<li>Região central: formação de inimigos.</li>
+<li>Região inferior: nave do jogador.</li>
+<li>Fundo: cenário espacial.</li>
+</ul>
+<h1 id="plano-de-testes">10. Plano de testes</h1>
+<p>Os testes deverão validar o funcionamento dos requisitos funcionais,
+as regras de negócio e a estabilidade do sistema.</p>
+<h2 id="testes-unitários">10.1 Testes unitários</h2>
+<p>Os testes unitários deverão validar individualmente os módulos do
+software.</p>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Módulo</th>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: left;">Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TU001</td>
+<td style="text-align: left;">Player</td>
+<td style="text-align: left;">Movimentar nave para esquerda.</td>
+<td style="text-align: left;">Coordenada X diminui.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU002</td>
+<td style="text-align: left;">Player</td>
+<td style="text-align: left;">Movimentar nave para direita.</td>
+<td style="text-align: left;">Coordenada X aumenta.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TU003</td>
+<td style="text-align: left;">Player</td>
+<td style="text-align: left;">Movimentar nave além do limite
+esquerdo.</td>
+<td style="text-align: left;">Nave permanece dentro da tela.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU004</td>
+<td style="text-align: left;">Player</td>
+<td style="text-align: left;">Movimentar nave além do limite
+direito.</td>
+<td style="text-align: left;">Nave permanece dentro da tela.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TU005</td>
+<td style="text-align: left;">Projectile</td>
+<td style="text-align: left;">Criar projétil.</td>
+<td style="text-align: left;">Projétil recebe posição inicial
+correta.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU006</td>
+<td style="text-align: left;">Projectile</td>
+<td style="text-align: left;">Atualizar posição do projétil.</td>
+<td style="text-align: left;">Coordenada Y é atualizada conforme a
+velocidade.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TU007</td>
+<td style="text-align: left;">Enemy</td>
+<td style="text-align: left;">Criar inimigo.</td>
+<td style="text-align: left;">Inimigo recebe posição e atributos
+iniciais.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU008</td>
+<td style="text-align: left;">Enemy</td>
+<td style="text-align: left;">Atingir limite horizontal.</td>
+<td style="text-align: left;">Formação muda de direção.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TU009</td>
+<td style="text-align: left;">Collision</td>
+<td style="text-align: left;">Projétil colide com inimigo.</td>
+<td style="text-align: left;">Colisão identificada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU010</td>
+<td style="text-align: left;">Collision</td>
+<td style="text-align: left;">Projétil não atinge inimigo.</td>
+<td style="text-align: left;">Nenhuma colisão identificada.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TU011</td>
+<td style="text-align: left;">Score</td>
+<td style="text-align: left;">Eliminar inimigo básico.</td>
+<td style="text-align: left;">Pontuação aumenta em 10 pontos.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TU012</td>
+<td style="text-align: left;">Game</td>
+<td style="text-align: left;">Perder última vida.</td>
+<td style="text-align: left;">Estado passa para GAME_OVER.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="testes-de-integração">10.2 Testes de integração</h2>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: left;">Procedimento</th>
+<th style="text-align: left;">Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TI001</td>
+<td style="text-align: left;">Integração jogador e projétil</td>
+<td style="text-align: left;">Movimentar nave e disparar.</td>
+<td style="text-align: left;">Projétil é criado na posição da nave.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TI002</td>
+<td style="text-align: left;">Integração projétil e inimigo</td>
+<td style="text-align: left;">Disparar contra inimigo.</td>
+<td style="text-align: left;">Inimigo é eliminado.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TI003</td>
+<td style="text-align: left;">Integração colisão e pontuação</td>
+<td style="text-align: left;">Eliminar inimigo.</td>
+<td style="text-align: left;">Pontuação é atualizada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TI004</td>
+<td style="text-align: left;">Integração inimigos e dificuldade</td>
+<td style="text-align: left;">Eliminar todos os inimigos.</td>
+<td style="text-align: left;">Nova onda é criada com dificuldade
+maior.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TI005</td>
+<td style="text-align: left;">Integração vidas e Game Over</td>
+<td style="text-align: left;">Perder todas as vidas.</td>
+<td style="text-align: left;">Tela de Game Over é apresentada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TI006</td>
+<td style="text-align: left;">Integração pausa e retomada</td>
+<td style="text-align: left;">Pausar e retomar a partida.</td>
+<td style="text-align: left;">O jogo interrompe e retoma
+corretamente.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="testes-funcionais">10.3 Testes funcionais</h2>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Funcionalidade</th>
+<th style="text-align: left;">Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TF001</td>
+<td style="text-align: left;">Abrir aplicação</td>
+<td style="text-align: left;">Tela inicial apresentada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TF002</td>
+<td style="text-align: left;">Iniciar jogo</td>
+<td style="text-align: left;">Primeira onda apresentada.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TF003</td>
+<td style="text-align: left;">Movimentar nave</td>
+<td style="text-align: left;">Nave movimenta conforme o comando.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TF004</td>
+<td style="text-align: left;">Disparar</td>
+<td style="text-align: left;">Projéteis são apresentados na tela.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TF005</td>
+<td style="text-align: left;">Eliminar inimigos</td>
+<td style="text-align: left;">Inimigos desaparecem após colisão
+válida.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TF006</td>
+<td style="text-align: left;">Pontuação</td>
+<td style="text-align: left;">Pontos são contabilizados
+corretamente.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TF007</td>
+<td style="text-align: left;">Perder vida</td>
+<td style="text-align: left;">Quantidade de vidas é decrementada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TF008</td>
+<td style="text-align: left;">Game Over</td>
+<td style="text-align: left;">Mensagem de fim de jogo apresentada.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TF009</td>
+<td style="text-align: left;">Reiniciar</td>
+<td style="text-align: left;">Nova partida iniciada com atributos
+reinicializados.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TF010</td>
+<td style="text-align: left;">Pausar</td>
+<td style="text-align: left;">Movimentação dos elementos é
+interrompida.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="testes-não-funcionais">10.4 Testes não funcionais</h2>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Cenário</th>
+<th style="text-align: left;">Critério de aceitação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TNF001</td>
+<td style="text-align: left;">Desempenho</td>
+<td style="text-align: left;">Executar jogo com quantidade padrão de
+inimigos.</td>
+<td style="text-align: left;">Manter aproximadamente 60 FPS no ambiente
+de referência.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TNF002</td>
+<td style="text-align: left;">Desempenho</td>
+<td style="text-align: left;">Executar jogo com 100 projéteis
+ativos.</td>
+<td style="text-align: left;">Não apresentar travamentos
+significativos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TNF003</td>
+<td style="text-align: left;">Estabilidade</td>
+<td style="text-align: left;">Jogar continuamente por 30 minutos.</td>
+<td style="text-align: left;">Não ocorrer encerramento inesperado.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TNF004</td>
+<td style="text-align: left;">Compatibilidade</td>
+<td style="text-align: left;">Executar no Windows.</td>
+<td style="text-align: left;">Inicialização e execução corretas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TNF005</td>
+<td style="text-align: left;">Compatibilidade</td>
+<td style="text-align: left;">Executar no Linux.</td>
+<td style="text-align: left;">Inicialização e execução corretas.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TNF006</td>
+<td style="text-align: left;">Usabilidade</td>
+<td style="text-align: left;">Utilizar os controles disponíveis.</td>
+<td style="text-align: left;">Comandos respondem corretamente.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TNF007</td>
+<td style="text-align: left;">Recursos</td>
+<td style="text-align: left;">Encerrar a aplicação.</td>
+<td style="text-align: left;">Recursos de memória e contexto gráfico são
+liberados.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="critérios-de-aceite">11. Critérios de aceite</h1>
+<p>O projeto será considerado concluído quando atender aos seguintes
+critérios:</p>
+<ol type="1">
+<li>O software estiver desenvolvido em linguagem C.</li>
+<li>A renderização gráfica utilizar OpenGL.</li>
+<li>O jogador conseguir movimentar a nave horizontalmente.</li>
+<li>O jogador conseguir disparar projéteis.</li>
+<li>Os inimigos forem criados e movimentados automaticamente.</li>
+<li>O sistema identificar corretamente as colisões.</li>
+<li>A pontuação for atualizada corretamente.</li>
+<li>O sistema controlar as vidas do jogador.</li>
+<li>O jogo apresentar dificuldade progressiva.</li>
+<li>O sistema apresentar corretamente os estados de pausa, vitória e
+Game Over.</li>
+<li>O jogador conseguir reiniciar a partida.</li>
+<li>Os testes unitários, de integração e funcionais forem executados com
+sucesso.</li>
+</ol>
+<h1 id="considerações-sobre-implementação">12. Considerações sobre
+implementação</h1>
+<p>Alguns aspectos técnicos deverão ser observados durante o
+desenvolvimento:</p>
+<p><strong>Renderização OpenGL</strong></p>
+<p>Recomenda-se utilizar Vertex Buffer Objects (VBO), Vertex Array
+Objects (VAO) e shaders para desenhar os elementos 2D.</p>
+<p><strong>Detecção de colisões</strong></p>
+<p>Uma abordagem simples é utilizar AABB (<em>Axis-Aligned Bounding
+Box</em>), comparando os retângulos que representam os objetos.</p>
+<p><strong>Gerenciamento de memória</strong></p>
+<p>Como a linguagem C não possui gerenciamento automático de memória, o
+projeto deverá controlar explicitamente a alocação e liberação de
+estruturas dinâmicas, principalmente para projéteis e inimigos.</p>
+<p><strong>Separação de responsabilidades</strong></p>
+<p>A lógica do jogo deverá ser independente da renderização gráfica.
+Dessa forma, será possível testar movimentação, colisões e pontuação sem
+depender da inicialização do OpenGL.</p>
+<p><strong>Temporização</strong></p>
+<p>Todas as movimentações deverão considerar o delta time, evitando
+diferenças de velocidade entre computadores com diferentes capacidades
+gráficas.</p>
+<h1 id="evoluções-futuras">13. Evoluções futuras</h1>
+<p>Após a implementação da versão inicial, poderão ser desenvolvidas as
+seguintes funcionalidades:</p>
+<ul>
+<li>Ranking de melhores pontuações.</li>
+<li>Salvamento de recordes em arquivo.</li>
+<li>Diferentes tipos de inimigos.</li>
+<li>Chefes (<em>Bosses</em>) ao final de determinadas ondas.</li>
+<li>Power-ups e armas especiais.</li>
+<li>Efeitos sonoros e música de fundo.</li>
+<li>Animações de explosão.</li>
+<li>Tela de configurações.</li>
+<li>Suporte a joystick ou controle USB.</li>
+<li>Diferentes níveis de dificuldade.</li>
+</ul>
+<h1 id="definição-de-conclusão-do-projeto">14. Definição de conclusão do
+projeto</h1>
+<p>A versão 1.0 do Space Invaders deverá entregar um jogo 2D funcional,
+desenvolvido em C e OpenGL, contemplando movimentação, disparos,
+inimigos, colisões, pontuação, vidas, progressão de dificuldade e
+gerenciamento dos estados da partida.</p>
+<p>A arquitetura modular permitirá a evolução do sistema sem comprometer
+as funcionalidades já implementadas.</p>
+<p><strong>Próximo passo recomendado:</strong> elaborar o projeto
+técnico detalhado, com interfaces das funções C, estruturas de dados
+completas e implementação dos módulos <code>player</code>,
+<code>enemy</code>, <code>projectile</code>, <code>collision</code> e
+<code>renderer</code>.</p>
+</main>
+</body>
+</html>
