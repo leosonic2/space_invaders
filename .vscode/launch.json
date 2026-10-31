@@ -2,13 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C: debug active file",
+      "name": "Space Invaders: debug CMake target",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "program": "${workspaceFolder}\\build\\bin\\space_invaders.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "environment": [
         {
           "name": "PATH",
@@ -18,7 +18,7 @@
       "externalConsole": true,
       "MIMode": "gdb",
       "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
-      "preLaunchTask": "C: build active file"
+      "preLaunchTask": "CMake: build"
     }
   ]
 }

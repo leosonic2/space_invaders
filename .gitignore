@@ -1,1 +1,4 @@
 *.exe
+/build/
+/build-ninja/
+docs/performance-validation.md
