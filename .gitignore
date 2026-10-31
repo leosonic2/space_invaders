@@ -3,5 +3,3 @@
 /build-ninja/
 docs/performance-validation.md
 build-local.txt
-build-ucrt64/_deps/glad-src/
-/build-ucrt64/_deps/glfw-src
