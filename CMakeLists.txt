@@ -50,6 +50,9 @@ target_include_directories(game_core PUBLIC
     include
     "${CMAKE_CURRENT_BINARY_DIR}/generated"
 )
+if(UNIX)
+    target_link_libraries(game_core PUBLIC m)
+endif()
 
 add_library(game_renderer STATIC src/renderer.c)
 target_include_directories(game_renderer PUBLIC include)
