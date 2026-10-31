@@ -19,14 +19,18 @@ do GLAD também requer Jinja2; instale as dependências Python do projeto:
 py -3 -m pip install -r requirements-build.txt
 ```
 
-No Ubuntu, instale também os pacotes do compilador, do Ninja, do OpenGL e do
-GLFW:
+No Ubuntu, instale também os pacotes do compilador, do Ninja, do OpenGL e dos
+backends X11 e Wayland do GLFW:
 
 ```sh
 sudo apt-get install build-essential cmake git ninja-build python3 python3-pip \
-  libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+  libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+  libwayland-dev wayland-protocols libxkbcommon-dev
 python3 -m pip install -r requirements-build.txt
 ```
+
+O pacote `libwayland-dev` fornece o `wayland-scanner`, necessário para
+configurar o GLFW com suporte a Wayland.
 
 ## Configurar, compilar e executar
 
