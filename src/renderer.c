@@ -88,6 +88,10 @@ static const BitmapGlyph glyphs[] = {
     {':', {0, 4, 4, 0, 4, 4, 0}}
 };
 
+/**
+ * EN: Finds the bitmap glyph associated with a character.
+ * PT: Localiza o glifo bitmap associado a um caractere.
+ */
 static const BitmapGlyph *find_glyph(char character)
 {
     for (size_t i = 0; i < sizeof(glyphs) / sizeof(glyphs[0]); i++) {
@@ -98,6 +102,10 @@ static const BitmapGlyph *find_glyph(char character)
     return NULL;
 }
 
+/**
+ * EN: Draws text by rendering the lit pixels of each bitmap glyph.
+ * PT: Desenha texto renderizando os pixels acesos de cada glifo bitmap.
+ */
 static void draw_text(Renderer *renderer, const char *text, float x, float y,
                       float scale, float red, float green, float blue)
 {
@@ -121,6 +129,10 @@ static void draw_text(Renderer *renderer, const char *text, float x, float y,
     }
 }
 
+/**
+ * EN: Reads an entire file into a null-terminated heap buffer.
+ * PT: Lê um arquivo inteiro para um buffer de heap terminado em nulo.
+ */
 static char *read_file(const char *path)
 {
     FILE *file = fopen(path, "rb");
@@ -159,6 +171,10 @@ static char *read_file(const char *path)
     return contents;
 }
 
+/**
+ * EN: Loads and compiles a shader, reporting compilation diagnostics on failure.
+ * PT: Carrega e compila um shader, informando erros de compilação se necessário.
+ */
 static unsigned int compile_shader(unsigned int type, const char *path)
 {
     char *source = read_file(path);
@@ -191,6 +207,10 @@ static unsigned int compile_shader(unsigned int type, const char *path)
     return shader;
 }
 
+/**
+ * EN: Compiles and links the vertex and fragment shaders into a program.
+ * PT: Compila e vincula os shaders de vértice e fragmento em um programa.
+ */
 static unsigned int create_program(void)
 {
     unsigned int vertex_shader = compile_shader(GL_VERTEX_SHADER, "shaders/vertex.glsl");
@@ -232,6 +252,10 @@ static unsigned int create_program(void)
     return program;
 }
 
+/**
+ * EN: Creates the shader program and vertex resources required for drawing.
+ * PT: Cria o programa de shaders e os recursos de vértice usados nos desenhos.
+ */
 bool renderer_init(Renderer *renderer)
 {
     if (renderer == NULL) {
@@ -263,6 +287,10 @@ bool renderer_init(Renderer *renderer)
     return true;
 }
 
+/**
+ * EN: Releases the renderer's OpenGL resources and clears its fields.
+ * PT: Libera os recursos OpenGL do renderizador e limpa seus campos.
+ */
 void renderer_destroy(Renderer *renderer)
 {
     if (renderer == NULL) {
@@ -280,6 +308,10 @@ void renderer_destroy(Renderer *renderer)
     *renderer = (Renderer){0};
 }
 
+/**
+ * EN: Draws a colored rectangle in the game's logical coordinate system.
+ * PT: Desenha um retângulo colorido no sistema lógico de coordenadas do jogo.
+ */
 static void draw_rectangle(Renderer *renderer, float x, float y, float width,
                            float height, float red, float green, float blue)
 {
@@ -299,6 +331,10 @@ static void draw_rectangle(Renderer *renderer, float x, float y, float width,
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
+/**
+ * EN: Renders the player's pixel-art sprite as horizontal colored runs.
+ * PT: Renderiza o sprite pixel art do jogador em faixas horizontais coloridas.
+ */
 static void draw_player(Renderer *renderer, const Player *player)
 {
     for (int row = 0; row < PLAYER_SPRITE_HEIGHT; row++) {
@@ -353,6 +389,10 @@ static void draw_player(Renderer *renderer, const Player *player)
     }
 }
 
+/**
+ * EN: Calculates a centered viewport that preserves the logical world aspect.
+ * PT: Calcula uma área centralizada que preserva a proporção do mundo lógico.
+ */
 RendererViewport renderer_calculate_viewport(int width, int height)
 {
     if (width <= 0 || height <= 0) {
@@ -373,6 +413,10 @@ RendererViewport renderer_calculate_viewport(int width, int height)
     return viewport;
 }
 
+/**
+ * EN: Formats the text and visibility flags required for the current game state.
+ * PT: Formata os textos e indicadores de exibição do estado atual do jogo.
+ */
 bool renderer_format_text(const Game *game, RendererText *text)
 {
     if (game == NULL || text == NULL) {
@@ -419,6 +463,10 @@ bool renderer_format_text(const Game *game, RendererText *text)
     }
 }
 
+/**
+ * EN: Applies the aspect-preserving viewport for the logical game world.
+ * PT: Aplica a área de desenho que preserva a proporção do mundo lógico.
+ */
 static void set_logical_viewport(int width, int height)
 {
     RendererViewport viewport = renderer_calculate_viewport(width, height);
@@ -427,6 +475,10 @@ static void set_logical_viewport(int width, int height)
     }
 }
 
+/**
+ * EN: Draws the background, entities, and interface for the current game frame.
+ * PT: Desenha o fundo, as entidades e a interface do quadro atual do jogo.
+ */
 void renderer_render(Renderer *renderer, const Game *game, int width, int height)
 {
     if (renderer == NULL || game == NULL || renderer->program == 0) {

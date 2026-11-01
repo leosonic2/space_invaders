@@ -13,6 +13,10 @@ static int failures;
         }                                                                       \
     } while (0)
 
+/**
+ * EN: Runs a complete match through movement, combat, pause, and restart.
+ * PT: Executa uma partida completa com movimento, combate, pausa e reinício.
+ */
 static void test_complete_session(void)
 {
     Game game;
@@ -102,6 +106,10 @@ static void test_complete_session(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Verifies that one hundred projectiles remain active after a game update.
+ * PT: Verifica se cem projéteis continuam ativos após uma atualização do jogo.
+ */
 static void test_one_hundred_active_projectiles(void)
 {
     Game game;
@@ -120,6 +128,10 @@ static void test_one_hundred_active_projectiles(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Runs the integration scenarios and reports whether all checks passed.
+ * PT: Executa os cenários de integração e informa se todas as verificações passaram.
+ */
 int main(void)
 {
     test_complete_session();

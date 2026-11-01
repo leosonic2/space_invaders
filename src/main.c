@@ -10,12 +10,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * EN: Updates the OpenGL viewport when the window framebuffer is resized.
+ * PT: Atualiza a área de desenho do OpenGL quando o framebuffer é redimensionado.
+ */
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     (void)window;
     glViewport(0, 0, width, height);
 }
 
+/**
+ * EN: Converts GLFW key presses into one-shot game input events.
+ * PT: Converte pressionamentos de teclas do GLFW em eventos pontuais do jogo.
+ */
 static void key_callback(GLFWwindow *window, int key, int scancode, int action,
                          int modifiers)
 {
@@ -45,11 +53,19 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action,
     }
 }
 
+/**
+ * EN: Writes GLFW diagnostics to the standard error stream.
+ * PT: Escreve diagnósticos do GLFW no fluxo de erro padrão.
+ */
 static void report_glfw_error(int code, const char *description)
 {
     fprintf(stderr, "GLFW error %d: %s\n", code, description);
 }
 
+/**
+ * EN: Initializes the window, game, and renderer, then runs the main loop.
+ * PT: Inicializa janela, jogo e renderizador e executa o loop principal.
+ */
 int main(void)
 {
     GLFWwindow *window = NULL;

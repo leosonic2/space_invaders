@@ -13,6 +13,10 @@ static int failures;
         }                                                                       \
     } while (0)
 
+/**
+ * EN: Checks viewport dimensions at the minimum and reference resolutions.
+ * PT: Verifica as dimensões da área de desenho nas resoluções mínima e padrão.
+ */
 static void test_reference_resolutions(void)
 {
     RendererViewport minimum = renderer_calculate_viewport(800, 600);
@@ -28,6 +32,10 @@ static void test_reference_resolutions(void)
     CHECK(reference.height == 768);
 }
 
+/**
+ * EN: Verifies letterboxing preserves the logical aspect and handles invalid size.
+ * PT: Verifica a proporção com barras laterais e o tratamento de tamanho inválido.
+ */
 static void test_letterboxing_preserves_logical_aspect(void)
 {
     RendererViewport viewport = renderer_calculate_viewport(1280, 720);
@@ -41,6 +49,10 @@ static void test_letterboxing_preserves_logical_aspect(void)
     CHECK(invalid.height == 0);
 }
 
+/**
+ * EN: Runs viewport tests and reports whether all checks passed.
+ * PT: Executa os testes da área de desenho e informa se passaram.
+ */
 int main(void)
 {
     test_reference_resolutions();

@@ -14,6 +14,10 @@ static int failures;
         }                                                                       \
     } while (0)
 
+/**
+ * EN: Checks player movement in both directions and clamps movement at the edges.
+ * PT: Verifica o movimento do jogador nos dois sentidos e os limites das bordas.
+ */
 static void test_player_movement_and_bounds(void)
 {
     Game game;
@@ -49,6 +53,10 @@ static void test_player_movement_and_bounds(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Confirms that player movement covers the same distance at different frame rates.
+ * PT: Confirma que o jogador percorre a mesma distância em diferentes taxas de quadros.
+ */
 static void test_movement_is_frame_rate_independent(void)
 {
     Game sixty_fps;
@@ -72,6 +80,10 @@ static void test_movement_is_frame_rate_independent(void)
     game_destroy(&thirty_fps);
 }
 
+/**
+ * EN: Exercises enemy edge movement and projectile travel and removal.
+ * PT: Exercita o movimento dos inimigos nas bordas e o percurso e remoção de projéteis.
+ */
 static void test_enemy_and_projectile_lifecycle(void)
 {
     Game game;
@@ -107,6 +119,10 @@ static void test_enemy_and_projectile_lifecycle(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Verifies that active enemies descend as they move through the play area.
+ * PT: Verifica se inimigos ativos descem enquanto se movem pela área de jogo.
+ */
 static void test_enemies_approach_player(void)
 {
     Game game;
@@ -129,6 +145,10 @@ static void test_enemies_approach_player(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Checks that a projectile hit removes the enemy and awards its points.
+ * PT: Verifica se um acerto remove o inimigo e concede seus pontos.
+ */
 static void test_projectile_collision_and_score(void)
 {
     Game game;
@@ -156,6 +176,10 @@ static void test_projectile_collision_and_score(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Ensures a projectile that misses an enemy remains active while in bounds.
+ * PT: Garante que um projétil que erra o inimigo permaneça ativo dentro da área.
+ */
 static void test_missed_projectile_remains_active(void)
 {
     Game game;
@@ -183,6 +207,10 @@ static void test_missed_projectile_remains_active(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Checks that enemy contact costs exactly one life and removes that enemy.
+ * PT: Verifica se o contato com um inimigo tira apenas uma vida e o remove.
+ */
 static void test_invader_contact_costs_one_life_once(void)
 {
     Game game;
@@ -210,6 +238,10 @@ static void test_invader_contact_costs_one_life_once(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Verifies wave scaling, progression, and victory after the final wave.
+ * PT: Verifica o aumento de dificuldade, a progressão e a vitória na onda final.
+ */
 static void test_wave_difficulty_and_victory(void)
 {
     Game game;
@@ -252,6 +284,10 @@ static void test_wave_difficulty_and_victory(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Exercises menu start, pause and resume, game over, and session restart.
+ * PT: Exercita início no menu, pausa e retomada, fim de jogo e reinício da partida.
+ */
 static void test_menu_pause_game_over_and_restart(void)
 {
     Game game;
@@ -321,6 +357,10 @@ static void test_menu_pause_game_over_and_restart(void)
     game_destroy(&game);
 }
 
+/**
+ * EN: Runs all game logic tests and returns a failing status if any check fails.
+ * PT: Executa os testes da lógica e retorna falha se alguma verificação falhar.
+ */
 int main(void)
 {
     test_player_movement_and_bounds();

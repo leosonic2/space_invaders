@@ -14,6 +14,10 @@ static int failures;
         }                                                                       \
     } while (0)
 
+/**
+ * EN: Checks title and start-prompt text generated for the menu state.
+ * PT: Verifica o título e a instrução de início gerados para o menu.
+ */
 static void test_menu_text(void)
 {
     Game game = {.state = GAME_STATE_MENU};
@@ -27,6 +31,10 @@ static void test_menu_text(void)
     CHECK(strcmp(text.prompt, "PRESS ENTER TO START") == 0);
 }
 
+/**
+ * EN: Checks score, lives, and wave text in gameplay and pause states.
+ * PT: Verifica pontuação, vidas e onda durante o jogo e a pausa.
+ */
 static void test_gameplay_and_pause_hud(void)
 {
     Game game = {
@@ -55,6 +63,10 @@ static void test_gameplay_and_pause_hud(void)
     CHECK(strcmp(paused.wave, playing.wave) == 0);
 }
 
+/**
+ * EN: Checks game-over and victory messages, score, and restart prompt.
+ * PT: Verifica mensagens de fim de jogo e vitória, pontuação e opção de reinício.
+ */
 static void test_terminal_state_text(void)
 {
     Game game = {
@@ -81,6 +93,10 @@ static void test_terminal_state_text(void)
     CHECK(text.show_restart_prompt);
 }
 
+/**
+ * EN: Ensures text formatting rejects null pointers and unknown game states.
+ * PT: Garante que a formatação rejeite ponteiros nulos e estados desconhecidos.
+ */
 static void test_invalid_arguments(void)
 {
     Game game = {.state = (GameState)99};
@@ -91,6 +107,10 @@ static void test_invalid_arguments(void)
     CHECK(!renderer_format_text(&game, &text));
 }
 
+/**
+ * EN: Runs text-formatting tests and reports whether all checks passed.
+ * PT: Executa os testes de formatação de texto e informa se passaram.
+ */
 int main(void)
 {
     test_menu_text();

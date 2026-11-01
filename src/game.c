@@ -23,6 +23,10 @@
 #define PROJECTILE_SPEED 520.0f
 #define ENTITY_INITIAL_CAPACITY 32U
 
+/**
+ * EN: Initializes a game in the menu state with its player and match settings.
+ * PT: Inicializa o jogo no menu com o jogador e as configurações da partida.
+ */
 bool game_init(Game *game, int final_wave)
 {
     if (game == NULL || final_wave < 1) {
@@ -43,6 +47,10 @@ bool game_init(Game *game, int final_wave)
     return true;
 }
 
+/**
+ * EN: Releases entity storage owned by the game and clears its state.
+ * PT: Libera o armazenamento de entidades do jogo e limpa seu estado.
+ */
 void game_destroy(Game *game)
 {
     if (game == NULL) {
@@ -54,6 +62,10 @@ void game_destroy(Game *game)
     memset(game, 0, sizeof(*game));
 }
 
+/**
+ * EN: Calculates the enemy movement speed for the requested wave.
+ * PT: Calcula a velocidade de movimento dos inimigos para a onda informada.
+ */
 static float speed_for_wave(int wave)
 {
     float speed = BASE_ENEMY_SPEED;
@@ -69,6 +81,10 @@ static float speed_for_wave(int wave)
     return isfinite(speed) ? speed : 0.0f;
 }
 
+/**
+ * EN: Creates the enemy formation for the current wave.
+ * PT: Cria a formação de inimigos da onda atual.
+ */
 static bool create_wave(Game *game)
 {
     int additional_columns = game->wave > 3 ? game->wave - 3 : 0;
@@ -105,6 +121,10 @@ static bool create_wave(Game *game)
     return true;
 }
 
+/**
+ * EN: Resets match progress and starts the first wave.
+ * PT: Reinicia o progresso da partida e inicia a primeira onda.
+ */
 bool game_start(Game *game)
 {
     if (game == NULL || game->final_wave < 1) {
@@ -126,6 +146,10 @@ bool game_start(Game *game)
     return true;
 }
 
+/**
+ * EN: Grows a dynamic entity array when it has no free slot.
+ * PT: Aumenta um vetor dinâmico de entidades quando não há espaço disponível.
+ */
 static bool reserve_entities(void **entities, size_t *capacity, size_t count,
                              size_t element_size)
 {
@@ -148,6 +172,10 @@ static bool reserve_entities(void **entities, size_t *capacity, size_t count,
     return true;
 }
 
+/**
+ * EN: Adds an active enemy to the game's dynamically sized collection.
+ * PT: Adiciona um inimigo ativo à coleção dinâmica do jogo.
+ */
 bool game_add_enemy(Game *game, Enemy enemy)
 {
     if (game == NULL ||
@@ -161,6 +189,10 @@ bool game_add_enemy(Game *game, Enemy enemy)
     return true;
 }
 
+/**
+ * EN: Creates a projectile at the player's current horizontal position.
+ * PT: Cria um projétil na posição horizontal atual do jogador.
+ */
 bool game_fire(Game *game)
 {
     if (game == NULL ||
@@ -181,6 +213,10 @@ bool game_fire(Game *game)
     return true;
 }
 
+/**
+ * EN: Records a one-shot action key in the supplied input state.
+ * PT: Registra uma tecla de ação pontual no estado de entrada informado.
+ */
 void game_input_press(GameInput *input, GameKey key)
 {
     if (input == NULL) {
@@ -200,6 +236,10 @@ void game_input_press(GameInput *input, GameKey key)
     }
 }
 
+/**
+ * EN: Moves the player according to input and clamps it to the world bounds.
+ * PT: Move o jogador conforme a entrada e o mantém dentro dos limites do mundo.
+ */
 static void update_player(Game *game, const GameInput *input, float delta_time)
 {
     float direction = 0.0f;
@@ -217,6 +257,10 @@ static void update_player(Game *game, const GameInput *input, float delta_time)
     }
 }
 
+/**
+ * EN: Moves the enemy formation and makes it descend when it reaches an edge.
+ * PT: Move a formação de inimigos e a faz descer ao alcançar uma extremidade.
+ */
 static void update_enemies(Game *game, float delta_time)
 {
     float left = GAME_WORLD_WIDTH;
@@ -267,6 +311,10 @@ static void update_enemies(Game *game, float delta_time)
     }
 }
 
+/**
+ * EN: Moves projectiles upward and deactivates those that leave the world.
+ * PT: Move os projéteis para cima e desativa os que saem do mundo.
+ */
 static void update_projectiles(Game *game, float delta_time)
 {
     for (size_t i = 0; i < game->projectile_count; i++) {
@@ -278,12 +326,20 @@ static void update_projectiles(Game *game, float delta_time)
     }
 }
 
+/**
+ * EN: Returns whether two axis-aligned rectangles overlap.
+ * PT: Informa se dois retângulos alinhados aos eixos se sobrepõem.
+ */
 static bool boxes_overlap(float ax, float ay, float aw, float ah,
                           float bx, float by, float bw, float bh)
 {
     return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
 }
 
+/**
+ * EN: Deactivates colliding projectiles and enemies and awards enemy points.
+ * PT: Desativa projéteis e inimigos em colisão e concede os pontos do inimigo.
+ */
 static void check_projectile_hits(Game *game)
 {
     for (size_t i = 0; i < game->projectile_count; i++) {
@@ -309,6 +365,10 @@ static void check_projectile_hits(Game *game)
     }
 }
 
+/**
+ * EN: Removes enemies that touch the player or reach the lower play area.
+ * PT: Remove inimigos que tocam o jogador ou alcançam a parte inferior da área.
+ */
 static void check_enemy_player_contacts(Game *game)
 {
     for (size_t i = 0; i < game->enemy_count; i++) {
@@ -337,6 +397,10 @@ static void check_enemy_player_contacts(Game *game)
     }
 }
 
+/**
+ * EN: Compacts enemy and projectile arrays by removing inactive entities.
+ * PT: Compacta os vetores de inimigos e projéteis removendo entidades inativas.
+ */
 static void remove_inactive_entities(Game *game)
 {
     size_t enemy_write_index = 0;
@@ -356,6 +420,10 @@ static void remove_inactive_entities(Game *game)
     game->projectile_count = projectile_write_index;
 }
 
+/**
+ * EN: Starts the next wave, or switches to victory after the final wave.
+ * PT: Inicia a próxima onda ou muda para vitória após a onda final.
+ */
 static bool advance_wave(Game *game)
 {
     if (game->wave >= game->final_wave) {
@@ -371,6 +439,10 @@ static bool advance_wave(Game *game)
     return true;
 }
 
+/**
+ * EN: Advances the game state by one frame using the supplied input and time.
+ * PT: Avança o estado do jogo em um quadro usando a entrada e o intervalo dados.
+ */
 bool game_update(Game *game, const GameInput *input, float delta_time)
 {
     if (game == NULL || input == NULL || !isfinite(delta_time) ||

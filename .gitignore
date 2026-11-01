@@ -1,5 +1,7 @@
 *.exe
 /build/
 /build-ninja/
+/build-ucrt64/
+/build*/
 docs/performance-validation.md
 build-local.txt

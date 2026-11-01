@@ -1,17 +1,17 @@
-Start testing: Oct 31 15:29 Hora oficial do Brasil
+Start testing: Nov 01 10:52 Hora oficial do Brasil
 ----------------------------------------------------------
 1/5 Testing: campaign_configuration
 1/5 Test: campaign_configuration
 Command: "C:/estudos/space_invaders/build-ucrt64/bin/test_configuration.exe"
 Directory: C:/estudos/space_invaders/build-ucrt64
-"campaign_configuration" start time: Oct 31 15:29 Hora oficial do Brasil
+"campaign_configuration" start time: Nov 01 10:52 Hora oficial do Brasil
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.02 sec
+Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"campaign_configuration" end time: Oct 31 15:29 Hora oficial do Brasil
+"campaign_configuration" end time: Nov 01 10:52 Hora oficial do Brasil
 "campaign_configuration" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19,14 +19,14 @@ Test Passed.
 2/5 Test: game_logic
 Command: "C:/estudos/space_invaders/build-ucrt64/bin/test_game.exe"
 Directory: C:/estudos/space_invaders/build-ucrt64
-"game_logic" start time: Oct 31 15:29 Hora oficial do Brasil
+"game_logic" start time: Nov 01 10:52 Hora oficial do Brasil
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.02 sec
+Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"game_logic" end time: Oct 31 15:29 Hora oficial do Brasil
+"game_logic" end time: Nov 01 10:52 Hora oficial do Brasil
 "game_logic" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -34,14 +34,14 @@ Test Passed.
 3/5 Test: renderer_viewport
 Command: "C:/estudos/space_invaders/build-ucrt64/bin/test_renderer.exe"
 Directory: C:/estudos/space_invaders/build-ucrt64
-"renderer_viewport" start time: Oct 31 15:29 Hora oficial do Brasil
+"renderer_viewport" start time: Nov 01 10:52 Hora oficial do Brasil
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.03 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"renderer_viewport" end time: Oct 31 15:29 Hora oficial do Brasil
+"renderer_viewport" end time: Nov 01 10:52 Hora oficial do Brasil
 "renderer_viewport" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -49,14 +49,14 @@ Test Passed.
 4/5 Test: renderer_text
 Command: "C:/estudos/space_invaders/build-ucrt64/bin/test_renderer_text.exe"
 Directory: C:/estudos/space_invaders/build-ucrt64
-"renderer_text" start time: Oct 31 15:29 Hora oficial do Brasil
+"renderer_text" start time: Nov 01 10:52 Hora oficial do Brasil
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.03 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"renderer_text" end time: Oct 31 15:29 Hora oficial do Brasil
+"renderer_text" end time: Nov 01 10:52 Hora oficial do Brasil
 "renderer_text" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -64,15 +64,15 @@ Test Passed.
 5/5 Test: game_integration
 Command: "C:/estudos/space_invaders/build-ucrt64/bin/test_integration.exe"
 Directory: C:/estudos/space_invaders/build-ucrt64
-"game_integration" start time: Oct 31 15:29 Hora oficial do Brasil
+"game_integration" start time: Nov 01 10:52 Hora oficial do Brasil
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.02 sec
+Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"game_integration" end time: Oct 31 15:29 Hora oficial do Brasil
+"game_integration" end time: Nov 01 10:52 Hora oficial do Brasil
 "game_integration" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 31 15:29 Hora oficial do Brasil
+End testing: Nov 01 10:52 Hora oficial do Brasil
