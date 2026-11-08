@@ -1,6 +1,20 @@
 # Space Invaders
 
-A 2D desktop arcade game implemented in C17 with OpenGL 3.3, GLFW, and GLAD. The game separates its simulation from windowing and rendering, allowing the game logic and selected renderer helpers to be tested without opening a window.
+[English](README.md) | [Português (Brasil)](README.pt-BR.md) | [Español](README.es.md)
+
+**This is a study project focused on learning OpenSpec.** The Space Invaders game is a practical example for exploring how OpenSpec's spec-driven workflow turns behavior requirements into planned, implemented, and verified changes.
+
+The game is a 2D desktop arcade application implemented in C17 with OpenGL 3.3, GLFW, and GLAD. Its simulation is separated from windowing and rendering, allowing game logic and selected renderer helpers to be tested without opening a window.
+
+## Learning OpenSpec
+
+Use this repository to explore how OpenSpec artifacts support software changes:
+
+- Specs in `openspec/specs/` describe durable game behavior.
+- Change proposals, designs, and task lists show how a change is planned before implementation.
+- Applying tasks connects the written requirements to code and tests; completed changes can be reviewed and archived.
+
+The game provides a concrete C project for studying that process, including build instructions, automated tests, and visible runtime behavior.
 
 ## Features
 
