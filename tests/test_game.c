@@ -25,9 +25,15 @@ static void test_player_movement_and_bounds(void)
 
     CHECK(game_init(&game, 5));
     CHECK(game_start(&game));
-    CHECK(game.player.width == 64.0f);
+    CHECK(game.player.width == 72.0f);
     CHECK(game.player.height == 80.0f);
     CHECK(game.player.y + game.player.height == GAME_WORLD_HEIGHT - 32.0f);
+    CHECK(game_fire(&game));
+    CHECK(game.projectile_count == 1);
+    if (game.projectile_count > 0) {
+        CHECK(fabsf(game.projectiles[0].x + game.projectiles[0].width * 0.5f -
+                    (game.player.x + game.player.width * 0.5f)) < 0.001f);
+    }
     float starting_x = game.player.x;
     input.move_left = true;
     game_update(&game, &input, 0.1f);
@@ -227,7 +233,7 @@ static void test_invader_contact_costs_one_life_once(void)
     CHECK(game_init(&game, 1));
     CHECK(game_start(&game));
     game.enemy_count = 0;
-    enemy.x = game.player.x;
+    enemy.x = game.player.x + 66.0f;
     enemy.y = game.player.y;
     CHECK(game_add_enemy(&game, enemy));
     CHECK(game_update(&game, &input, 0.01f));
@@ -235,6 +241,39 @@ static void test_invader_contact_costs_one_life_once(void)
     CHECK(game.enemy_count == 0);
     CHECK(game_update(&game, &input, 0.01f));
     CHECK(game.lives == GAME_STARTING_LIVES - 1);
+    game_destroy(&game);
+}
+
+/**
+ * EN: Charges a life only after an off-axis invader reaches the screen bottom.
+ * PT: Só tira uma vida quando um invasor fora do eixo chega ao limite inferior.
+ */
+static void test_off_axis_invader_breach_reaches_bottom_edge(void)
+{
+    Game game;
+    GameInput input = {0};
+    Enemy enemy = {
+        .x = 0.0f,
+        .y = 0.0f,
+        .width = 20.0f,
+        .height = 20.0f,
+        .speed = 0.0f,
+        .points = 10
+    };
+
+    CHECK(game_init(&game, 1));
+    CHECK(game_start(&game));
+    game.enemy_count = 0;
+    enemy.y = game.player.y;
+    CHECK(game_add_enemy(&game, enemy));
+    CHECK(game_update(&game, &input, 0.01f));
+    CHECK(game.lives == GAME_STARTING_LIVES);
+    CHECK(game.enemy_count == 1);
+
+    game.enemies[0].y = GAME_WORLD_HEIGHT - game.enemies[0].height;
+    CHECK(game_update(&game, &input, 0.01f));
+    CHECK(game.lives == GAME_STARTING_LIVES - 1);
+    CHECK(game.enemy_count == 0);
     game_destroy(&game);
 }
 
@@ -370,6 +409,7 @@ int main(void)
     test_projectile_collision_and_score();
     test_missed_projectile_remains_active();
     test_invader_contact_costs_one_life_once();
+    test_off_axis_invader_breach_reaches_bottom_edge();
     test_wave_difficulty_and_victory();
     test_menu_pause_game_over_and_restart();
     return failures == 0 ? 0 : 1;

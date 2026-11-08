@@ -9,7 +9,7 @@
 #define STAR_COUNT 40
 #define FONT_HEIGHT 7
 #define PLAYER_SPRITE_PIXEL_SIZE 4.0f
-#define PLAYER_SPRITE_WIDTH 16
+#define PLAYER_SPRITE_WIDTH 18
 #define PLAYER_SPRITE_HEIGHT 20
 
 typedef struct {
@@ -44,26 +44,26 @@ static const Star stars[STAR_COUNT] = {
 };
 
 static const char player_sprite[PLAYER_SPRITE_HEIGHT][PLAYER_SPRITE_WIDTH + 1] = {
-    "......####......",
-    "......#WW#......",
-    "......#WW#......",
-    ".....##WW##.....",
-    ".....#WWWW#.....",
-    "....##WWWW##....",
-    "...##WW..WW##...",
-    "..##WW....WW##..",
-    ".###WW....WW###.",
-    "##RR#......#RR##",
-    "##BB#......#BB##",
-    "##WW########WW##",
-    "#WW.##RRRR##.WW#",
-    "#WW.##RRRR##.WW#",
-    "#WW..#RRRR#..WW#",
-    "#WW.##WWWW##.WW#",
-    "#WW.###..###.WW#",
-    "#WW##......##WW#",
-    "##RR##....##RR##",
-    "..##.##..##.##.."
+    ".......####.......",
+    ".......#WW#.......",
+    ".......#WW#.......",
+    "......##WW##......",
+    "......#WWWW#......",
+    ".....##WWWW##.....",
+    "....##WW..WW##....",
+    "...##WW....WW##...",
+    ".####WW....WW####.",
+    "###RR#......#RR###",
+    "###BB#......#BB###",
+    "###WW########WW###",
+    ".#WW.##RRRR##.WW#.",
+    ".#WW.##RRRR##.WW#.",
+    ".#WW..#RRRR#..WW#.",
+    ".#WW.##WWWW##.WW#.",
+    ".#WW.###..###.WW#.",
+    ".#WW##......##WW#.",
+    ".##RR##....##RR##.",
+    "...##.##..##.##..."
 };
 
 static const BitmapGlyph glyphs[] = {

@@ -1,6 +1,6 @@
-campaign_configuration 2 0.0125032
-game_logic 2 0.0136774
-renderer_viewport 2 0.020145
-renderer_text 2 0.0201393
-game_integration 2 0.0134043
+campaign_configuration 4 0.00149052
+game_logic 5 0.00114866
+renderer_viewport 4 0.0013382
+renderer_text 4 0.00140317
+game_integration 4 0.00596817
 ---

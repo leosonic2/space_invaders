@@ -55,18 +55,18 @@ The system MUST create enemies in a formation and move the formation horizontall
 - **THEN** the formation reverses horizontal direction and descends one position
 
 ### Requirement: Invader advance and life loss
-The system MUST move invaders toward the player's region and deduct exactly one life for each distinct event in which an invader reaches the lower region or collides with the player's ship.
+The system MUST move invaders toward the player's region and deduct exactly one life when an invader overlaps the player's expanded ship collision bounds or, without colliding with the ship, reaches the bottom edge of the screen.
 
 #### Scenario: Advance toward the player
 - **WHEN** a wave remains active over time
 - **THEN** the invaders gradually move down toward the player's region
 
 #### Scenario: Invaders reach the lower region
-- **WHEN** an invader reaches the lower region of the screen
+- **WHEN** an invader that has not collided with the player reaches the bottom edge of the screen
 - **THEN** the player loses one life for that breach event
 
 #### Scenario: Invader collides with the ship
-- **WHEN** an invader collides with the player's ship
+- **WHEN** an invader overlaps the player's ship collision bounds, including its widened wings
 - **THEN** the player loses one life for that collision event
 
 ### Requirement: Projectile collision
@@ -151,6 +151,13 @@ The system MUST render the game with OpenGL and support a window of at least 800
 #### Scenario: Use the minimum supported resolution
 - **WHEN** the game window is displayed at 800 by 600 pixels or larger
 - **THEN** gameplay elements and status information remain visible
+
+### Requirement: Player fighter ship appearance
+The system MUST render the player ship as a symmetric top-down combat aircraft with wider wings, following the visual reference in `img/nave.jpg`.
+
+#### Scenario: Display the widened fighter ship
+- **WHEN** the player ship is rendered during gameplay
+- **THEN** it has a central nose and visibly broad, symmetric wings matching the reference's combat-aircraft silhouette
 
 ### Requirement: Frame-independent gameplay timing
 The system MUST update movement using elapsed frame time so gameplay speed does not depend on frame rate.

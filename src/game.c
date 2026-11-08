@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PLAYER_WIDTH 64.0f
+#define PLAYER_WIDTH 72.0f
 #define PLAYER_HEIGHT 80.0f
 #define PLAYER_SPEED 320.0f
 #define PLAYER_Y (GAME_WORLD_HEIGHT - PLAYER_HEIGHT - 32.0f)
@@ -381,7 +381,8 @@ static void check_enemy_player_contacts(Game *game)
                                         enemy->width, enemy->height,
                                         game->player.x, game->player.y,
                                         game->player.width, game->player.height);
-        bool reached_lower_region = enemy->y + enemy->height >= game->player.y;
+        bool reached_lower_region =
+            enemy->y + enemy->height >= GAME_WORLD_HEIGHT;
         if (!hit_player && !reached_lower_region) {
             continue;
         }
